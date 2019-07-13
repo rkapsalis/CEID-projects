@@ -1,4 +1,4 @@
-#Data structures project
+# Data structures project
 Created as a project for Data Structures course.
 Μέρος Α 
 Σας δίνεται το αρχείο integers.txt το οποίο περιέχει ακέραιους αριθμούς, έναν σε κάθε γραμμή του. Σας ζητείται να γράψετε ένα πρόγραμμα που θα διαβάζει το αρχείο και θα ταξινομεί τα περιεχόμενά του με χρήση του αλγόριθμου Merge Sort.
