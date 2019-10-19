@@ -1,0 +1,23 @@
+#BlueJ class context
+comment0.target=Tree
+comment1.params=
+comment1.target=Tree()
+comment10.params=p\ x
+comment10.target=void\ insertRight(TreeNode,\ int)
+comment2.params=x
+comment2.target=void\ makeRoot(int)
+comment3.params=
+comment3.target=boolean\ empty()
+comment4.params=
+comment4.target=TreeNode\ getRoot()
+comment5.params=
+comment5.target=int\ getData()
+comment6.params=
+comment6.target=TreeNode\ getLeft()
+comment7.params=
+comment7.target=TreeNode\ getRight()
+comment8.params=d
+comment8.target=void\ setData(int)
+comment9.params=p\ x
+comment9.target=void\ insertLeft(TreeNode,\ int)
+numComments=11

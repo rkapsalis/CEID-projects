@@ -1,0 +1,9 @@
+#BlueJ class context
+comment0.target=TrieNode
+comment1.params=
+comment1.target=TrieNode()
+comment2.params=
+comment2.target=boolean\ getWordEnd()
+comment3.params=x
+comment3.target=void\ setWordEnd(boolean)
+numComments=4

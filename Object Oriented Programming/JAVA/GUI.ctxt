@@ -1,0 +1,24 @@
+#BlueJ class context
+comment0.params=
+comment0.target=void\ main()
+comment1.params=e
+comment1.target=void\ actionPerformed(java.awt.event.ActionEvent)
+comment10.params=actionEvent
+comment10.target=void\ actionPerformed(java.awt.event.ActionEvent)
+comment2.params=actionEvent
+comment2.target=void\ actionPerformed(java.awt.event.ActionEvent)
+comment3.params=actionEvent
+comment3.target=void\ actionPerformed(java.awt.event.ActionEvent)
+comment4.params=actionEvent
+comment4.target=void\ actionPerformed(java.awt.event.ActionEvent)
+comment5.params=actionEvent
+comment5.target=void\ actionPerformed(java.awt.event.ActionEvent)
+comment6.params=actionEvent
+comment6.target=void\ actionPerformed(java.awt.event.ActionEvent)
+comment7.params=actionEvent
+comment7.target=void\ actionPerformed(java.awt.event.ActionEvent)
+comment8.params=actionEvent
+comment8.target=void\ actionPerformed(java.awt.event.ActionEvent)
+comment9.params=actionEvent
+comment9.target=void\ actionPerformed(java.awt.event.ActionEvent)
+numComments=11

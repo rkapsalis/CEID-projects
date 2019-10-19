@@ -1,0 +1,10 @@
+#BlueJ class context
+comment0.params=
+comment0.target=RoomE()
+comment1.params=maxPeople\ pricePerDay\ discountPerDay
+comment1.target=RoomE(int,\ double,\ double)
+comment2.params=reservationCode
+comment2.target=boolean\ cancellation(int)
+comment3.params=
+comment3.target=double\ pricing()
+numComments=4
