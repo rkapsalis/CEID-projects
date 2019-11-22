@@ -1,0 +1,84 @@
+# depslib dependency file v1.0
+1496227692 source:c:\users\Ρωμανός\documents\codeblocks\project2\main.cpp
+	<time.h>
+	<string.h>
+	<iostream>
+	<stdlib.h>
+	"Reservation.h"
+	"Room.h"
+	"RoomA.h"
+	"RoomB.h"
+	"RoomC.h"
+	"RoomD.h"
+	"RoomE.h"
+	"Hotel.h"
+	<time.h>
+
+1496227692 c:\users\Ρωμανός\documents\codeblocks\project2\reservation.h
+	<string>
+
+1496227692 c:\users\Ρωμανός\documents\codeblocks\project2\room.h
+
+1496227692 source:c:\users\Ρωμανός\documents\codeblocks\project2\reservation.cpp
+	"Reservation.h"
+	"Room.h"
+	<iostream>
+
+1496227692 source:c:\users\Ρωμανός\documents\codeblocks\project2\room.cpp
+	"Room.h"
+	"Reservation.h"
+	<iostream>
+
+1496227692 source:c:\users\Ρωμανός\documents\codeblocks\project2\rooma.cpp
+	"RoomA.h"
+	<iostream>
+
+1496227692 c:\users\Ρωμανός\documents\codeblocks\project2\rooma.h
+	"Room.h"
+
+1496227692 source:c:\users\Ρωμανός\documents\codeblocks\project2\roomc.cpp
+	"Room.h"
+	"RoomC.h"
+	"Reservation.h"
+
+1496228465 c:\users\Ρωμανός\documents\codeblocks\project2\roomc.h
+	"Reservation.h"
+	"Room.h"
+
+1496227691 source:c:\users\Ρωμανός\documents\codeblocks\project2\roomb.cpp
+	"RoomB.h"
+	<iostream>
+	"Reservation.h"
+
+1496228465 c:\users\Ρωμανός\documents\codeblocks\project2\roomb.h
+	"Room.h"
+	"RoomA.h"
+	"Reservation.h"
+
+1496227692 source:c:\users\Ρωμανός\documents\codeblocks\project2\roomd.cpp
+	"RoomD.h"
+	<iostream>
+	<string>
+
+1496227692 c:\users\Ρωμανός\documents\codeblocks\project2\roomd.h
+	<string>
+	"RoomA.h"
+	"Room.h"
+	"Reservation.h"
+
+1496227704 source:c:\users\Ρωμανός\documents\codeblocks\project2\roome.cpp
+	"RoomE.h"
+
+1496227692 c:\users\Ρωμανός\documents\codeblocks\project2\roome.h
+	"RoomB.h"
+
+1496228465 source:c:\users\Ρωμανός\documents\codeblocks\project2\hotel.cpp
+	"Hotel.h"
+	<iostream>
+	<vector>
+
+1496227692 c:\users\Ρωμανός\documents\codeblocks\project2\hotel.h
+	"Room.h"
+	"Reservation.h"
+	<vector>
+
