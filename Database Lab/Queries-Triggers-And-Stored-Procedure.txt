@@ -1,0 +1,572 @@
+DELIMITER $
+CREATE TRIGGER candidate_insert 
+BEFORE INSERT ON candidate 
+FOR EACH ROW 
+BEGIN 
+DECLARE currDate DATETIME; 
+SET currDate=NOW();
+IF EXISTS (SELECT * FROM candidate_copy where username_copy=NEW.username) THEN
+INSERT INTO history VALUES
+((SELECT user_name_copy FROM user_name_copy),currDate,'No','insert','candidate');
+ELSE
+INSERT INTO history VALUES
+((SELECT user_name_copy FROM user_name_copy),currDate,'Yes','insert','candidate');
+INSERT INTO candidate_copy VALUES
+(NEW.username, NEW.bio, NEW.sistatikes, NEW.certificates);
+END IF;
+END$
+DELIMITER ;
+
+
+DELIMITER $
+CREATE TRIGGER recruiter_insert 
+BEFORE INSERT ON recruiter 
+FOR EACH ROW 
+BEGIN 
+DECLARE currDate DATETIME; 
+SET currDate=NOW();
+IF EXISTS (SELECT * FROM recruiter_copy where username_copy=NEW.username) THEN
+INSERT INTO history VALUES
+((SELECT user_name_copy FROM user_name_copy),currDate,'No','insert','recruiter');
+ELSE
+INSERT INTO history VALUES
+((SELECT user_name_copy FROM user_name_copy),currDate,'Yes','insert','recruiter');
+INSERT INTO recruiter_copy VALUES
+(NEW.username, NEW.exp_years, NEW.firm);
+END IF;
+END$
+DELIMITER ;
+
+
+DELIMITER $
+CREATE TRIGGER user_insert 
+BEFORE INSERT ON user 
+FOR EACH ROW 
+BEGIN 
+DECLARE currDate DATETIME; 
+SET currDate=NOW();
+IF EXISTS (SELECT * FROM user_copy where username_copy=NEW.username) THEN
+INSERT INTO history VALUES
+((SELECT user_name_copy FROM user_name_copy),currDate,'No','insert','user');
+ELSE
+INSERT INTO history VALUES
+((SELECT user_name_copy FROM user_name_copy),currDate,'Yes','insert','user');
+INSERT INTO user_copy VALUES
+(NEW.username, NEW.password, NEW.name, NEW.surname, NEW.reg_date, NEW.email);
+END IF;
+END$
+DELIMITER ;
+
+
+DELIMITER $
+CREATE TRIGGER etaireia_insert 
+BEFORE INSERT ON etaireia 
+FOR EACH ROW 
+BEGIN 
+DECLARE currDate DATETIME; 
+SET currDate=NOW();
+IF EXISTS (SELECT * FROM etaireia_copy where AFM_copy=NEW.AFM) THEN
+INSERT INTO history VALUES
+((SELECT user_name_copy FROM user_name_copy),currDate,'No','insert','etaireia');
+ELSE
+INSERT INTO history VALUES
+((SELECT user_name_copy FROM user_name_copy),currDate,'Yes','insert','etaireia');
+INSERT INTO etaireia_copy VALUES
+(NEW.AFM, NEW.DOY, NEW.name, NEW.tel, NEW.street, NEW.num, NEW.city, NEW.country);
+END IF;
+END$
+DELIMITER ;
+
+DELIMITER $
+CREATE TRIGGER job_insert 
+BEFORE INSERT ON job 
+FOR EACH ROW 
+BEGIN 
+DECLARE currDate DATETIME; 
+SET currDate=NOW();
+IF EXISTS (SELECT * FROM job_copy where id_copy=NEW.id) THEN
+INSERT INTO history VALUES
+((SELECT user_name_copy FROM user_name_copy),currDate,'No','insert','job');
+ELSE
+INSERT INTO history VALUES
+((SELECT user_name_copy FROM user_name_copy),currDate,'Yes','insert','job');
+INSERT INTO job_copy VALUES
+(NEW.id, NEW.start_date, NEW.salary, NEW.position, NEW.edra, NEW.recruiter, NEW.announce_date, NEW.submission_date);
+END IF;
+END$
+DELIMITER ;
+
+
+DELIMITER $
+CREATE TRIGGER candidate_update 
+BEFORE UPDATE ON candidate 
+FOR EACH ROW 
+BEGIN 
+DECLARE currDate DATETIME; 
+SET currDate=NOW();
+IF EXISTS (SELECT username_copy,bio_copy,sistatikes_copy,certificates_copy FROM candidate_copy where username_copy=NEW.username AND ( bio_copy<>NEW.bio OR sistatikes_copy<>NEW.sistatikes OR certificates_copy<>NEW.certificates ) ) THEN
+INSERT INTO history VALUES
+((SELECT user_name_copy FROM user_name_copy),currDate,'Yes','update','candidate');
+UPDATE candidate_copy  SET bio_copy=NEW.bio, sistatikes_copy=NEW.sistatikes, certificates_copy=NEW.certificates WHERE username_copy=NEW.username;
+ELSE
+INSERT INTO history VALUES
+((SELECT user_name_copy FROM user_name_copy),currDate,'No','update','candidate');
+END IF;
+END$
+DELIMITER ;
+
+DELIMITER $
+CREATE TRIGGER recruiter_update 
+BEFORE UPDATE ON recruiter 
+FOR EACH ROW 
+BEGIN 
+DECLARE currDate DATETIME; 
+SET currDate=NOW();
+IF EXISTS (SELECT username_copy,exp_years_copy,firm_copy FROM recruiter_copy where username_copy=NEW.username AND ( exp_years_copy<>NEW.exp_years OR firm_copy<>NEW.firm) ) THEN
+INSERT INTO history VALUES
+((SELECT user_name_copy FROM user_name_copy),currDate,'Yes','update','recruiter');
+UPDATE recruiter_copy  SET exp_years_copy=NEW.exp_years, firm_copy=NEW.firm WHERE username_copy=NEW.username;
+ELSE
+INSERT INTO history VALUES
+((SELECT user_name_copy FROM user_name_copy),currDate,'No','update','recruiter');
+END IF;
+END$
+DELIMITER ;
+
+
+
+
+
+DELIMITER $
+CREATE TRIGGER user_update 
+BEFORE UPDATE ON user 
+FOR EACH ROW 
+BEGIN 
+DECLARE currDate DATETIME; 
+SET currDate=NOW();
+IF EXISTS (SELECT username_copy,password_copy,name_copy,surname_copy,reg_date_copy,email_copy FROM user_copy where username_copy=NEW.username AND ( password_copy<>NEW.password OR name_copy<>NEW.name OR surname_copy<>NEW.surname OR reg_date_copy<>NEW.reg_date OR email_copy<>NEW.email ) ) THEN
+INSERT INTO history VALUES
+((SELECT user_name_copy FROM user_name_copy),currDate,'Yes','update','user');
+UPDATE user_copy  SET password_copy=NEW.password, name_copy=NEW.name, surname_copy=NEW.surname,reg_date_copy=NEW.reg_date, email_copy=NEW.email WHERE username_copy=NEW.username;
+ELSE
+INSERT INTO history VALUES
+((SELECT user_name_copy FROM user_name_copy),currDate,'No','update','user');
+END IF;
+END$
+DELIMITER ;
+
+
+DELIMITER $
+CREATE TRIGGER etaireia_update
+BEFORE UPDATE ON etaireia 
+FOR EACH ROW 
+BEGIN 
+DECLARE currDate DATETIME; 
+SET currDate=NOW();
+IF (NEW.AFM<>AFM)THEN
+SET NEW.AFM=AFM;
+END IF;
+IF EXISTS (SELECT AFM_copy,DOY_copy,name_copy,tel_copy,street_copy,num_copy,city_copy,country_copy FROM etaireia_copy where AFM_copy=NEW.AFM AND ( DOY_copy<>NEW.DOY OR name_copy<>NEW.name OR tel_copy<>NEW.tel OR street_copy<>NEW.street OR num_copy<>NEW.num OR city_copy<>NEW.city OR country_copy<>NEW.country ) ) THEN
+SET NEW.DOY=DOY;
+SET NEW.name=name;
+INSERT INTO history VALUES
+((SELECT user_name_copy FROM user_name_copy),currDate,'Yes','update','etaireia');
+UPDATE etaireia_copy  SET DOY_copy=NEW.DOY, name_copy=NEW.name, tel_copy=NEW.tel,street_copy=NEW.street, num_copy=NEW.num, city_copy=NEW.city, country_copy=NEW.country WHERE AFM_copy=NEW.AFM;
+ELSE
+INSERT INTO history VALUES
+((SELECT user_name_copy FROM user_name_copy),currDate,'No','update','etaireia');
+END IF;
+END$
+DELIMITER ;
+
+
+DELIMITER $
+CREATE TRIGGER job_update
+BEFORE UPDATE ON job 
+FOR EACH ROW 
+BEGIN 
+DECLARE currDate DATETIME; 
+SET currDate=NOW();
+IF EXISTS (SELECT id_copy, start_date_copy, salary_copy, position_copy, edra_copy, recruiter_copy, announce_date_copy,submission_date_copy FROM job_copy where id_copy=NEW.id AND ( start_date_copy<>NEW.start_date OR salary_copy<>NEW.salary OR position_copy<>NEW.position OR edra_copy<>NEW.edra OR recruiter_copy<>NEW.recruiter OR announce_date_copy<>NEW.announce_date OR submission_date_copy<>NEW.submission_date ) ) THEN
+INSERT INTO history VALUES
+((SELECT user_name_copy FROM user_name_copy),currDate,'Yes','update','job');
+UPDATE job_copy  SET start_date_copy=NEW.start_date, salary_copy=NEW.salary, position_copy=NEW.position, edra_copy=NEW.edra, recruiter_copy=NEW.recruiter, announce_date_copy=NEW.announce_date,submission_date_copy=NEW.submission_date WHERE id_copy=NEW.id;
+ELSE
+INSERT INTO history VALUES
+((SELECT user_name_copy FROM user_name_copy),currDate,'No','update','job');
+END IF;
+END$
+DELIMITER ;
+
+DELIMITER $
+CREATE TRIGGER candidate_delete 
+AFTER DELETE ON candidate 
+FOR EACH ROW 
+BEGIN 
+DECLARE sizeAc INT;
+DECLARE sizeBc INT;
+DECLARE currDate DATETIME; 
+SET currDate=NOW();
+SELECT COUNT(*) INTO sizeAc FROM candidate_copy;
+SELECT COUNT(*) INTO sizeBc FROM candidate;
+IF  (sizeAc > sizeBc) THEN
+INSERT INTO history VALUES
+((SELECT user_name_copy FROM user_name_copy),currDate,'Yes','delete','candidate');
+DELETE FROM candidate_copy  WHERE (username_copy=OLD.username);
+ELSE
+INSERT INTO history VALUES
+((SELECT user_name_copy FROM user_name_copy),currDate,'No','delete','candidate');
+END IF;
+END$
+DELIMITER ;
+
+
+DELIMITER $
+CREATE TRIGGER recruiter_delete 
+AFTER DELETE ON recruiter 
+FOR EACH ROW 
+BEGIN 
+DECLARE sizeAr INT;
+DECLARE sizeBr INT;
+DECLARE currDate DATETIME; 
+SET currDate=NOW();
+SELECT COUNT(*) INTO sizeAr FROM recruiter_copy;
+SELECT COUNT(*) INTO sizeBr FROM recruiter;
+IF  (sizeAr > sizeBr) THEN 
+INSERT INTO history VALUES
+((SELECT user_name_copy FROM user_name_copy),currDate,'Yes','delete','recruiter');
+DELETE FROM recruiter_copy  WHERE (username_copy=OLD.username);
+ELSE
+INSERT INTO history VALUES
+((SELECT user_name_copy FROM user_name_copy),currDate,'No','delete','recruiter');
+END IF;
+END$
+DELIMITER ;
+
+
+DELIMITER $
+CREATE TRIGGER user_delete 
+AFTER DELETE ON user 
+FOR EACH ROW 
+BEGIN 
+DECLARE sizeAu INT;
+DECLARE sizeBu INT;
+DECLARE currDate DATETIME; 
+SET currDate=NOW();
+SELECT COUNT(*) INTO sizeAu FROM user_copy;
+SELECT COUNT(*) INTO sizeBu FROM user;
+IF  (sizeAu > sizeBu) THEN
+INSERT INTO history VALUES
+((SELECT user_name_copy FROM user_name_copy),currDate,'Yes','delete','user');
+DELETE FROM user_copy  WHERE (username_copy=OLD.username);
+ELSE
+INSERT INTO history VALUES
+((SELECT user_name_copy FROM user_name_copy),currDate,'No','delete','user');
+END IF;
+END$
+DELIMITER ;
+
+
+DELIMITER $
+CREATE TRIGGER etaireia_delete 
+AFTER DELETE ON etaireia 
+FOR EACH ROW 
+BEGIN 
+DECLARE sizeAe INT;
+DECLARE sizeBe INT;
+DECLARE currDate DATETIME; 
+SET currDate=NOW();
+SELECT COUNT(*)  INTO sizeAe FROM etaireia_copy;
+SELECT COUNT(*)  INTO sizeBe FROM etaireia;
+IF  ( sizeAe > sizeBe) THEN
+INSERT INTO history VALUES
+((SELECT user_name_copy FROM user_name_copy),currDate,'Yes','delete','etaireia');
+DELETE FROM etaireia_copy  WHERE (AFM_copy=OLD.AFM);
+ELSE
+INSERT INTO history VALUES
+((SELECT user_name_copy FROM user_name_copy),currDate,'No','delete','etaireia');
+END IF;
+END$
+DELIMITER ;
+
+
+DELIMITER $
+CREATE TRIGGER job_delete 
+AFTER DELETE ON job 
+FOR EACH ROW 
+BEGIN 
+DECLARE currDate DATETIME; 
+DECLARE sizeAj INT;
+DECLARE sizeBj INT;
+SET currDate=NOW();
+SELECT COUNT(*) INTO sizeAj FROM job_copy;
+SELECT COUNT(*) INTO sizeBj FROM job;
+IF  (sizeAj > sizeBj) THEN
+INSERT INTO history VALUES
+((SELECT user_name_copy FROM user_name_copy),currDate,'Yes','delete','job');
+DELETE FROM job_copy  WHERE (id_copy=OLD.id);
+ELSE
+INSERT INTO history VALUES
+((SELECT user_name_copy FROM user_name_copy),currDate,'No','delete','job');
+END IF;
+END$
+DELIMITER ;
+
+
+DELIMITER $
+CREATE TRIGGER apply_date_insert
+BEFORE INSERT ON applies
+FOR EACH ROW
+BEGIN
+DECLARE date_applied DATE;
+SET date_applied = CURDATE();
+INSERT INTO applications_date VALUES
+(NEW.cand_usrname, NEW.job_id, date_applied);
+END$
+DELIMITER ;
+
+DELIMITER $
+CREATE TRIGGER delete_row_applications_date
+AFTER DELETE ON applies
+FOR EACH ROW
+BEGIN
+DELETE FROM applications_date WHERE  cand_usrname_copy=OLD.cand_usrname AND job_id_copy=OLD.job_id;
+END$
+DELIMITER ;
+
+DELIMITER $
+CREATE TRIGGER cand_no_delete
+BEFORE DELETE ON applies
+FOR EACH ROW
+BEGIN
+DECLARE apply_dateV DATE;
+DECLARE submission_dateV DATE;
+SELECT applications_date.apply_date, job.submission_date 
+INTO apply_dateV ,submission_dateV
+FROM applications_date
+INNER JOIN job ON applications_date.job_id_copy=job.id 
+WHERE applications_date.job_id_copy=OLD.job_id AND applications_date.cand_usrname_copy=OLD.cand_usrname;
+IF (apply_dateV <= submission_dateV) THEN
+SIGNAL SQLSTATE VALUE '45000'
+SET MESSAGE_TEXT = 'CANDIDATE APPLICATION HAS BEEN ACCEPTED AND CANNOT BE DELETED AFTER THE SUBMISSION DATE';
+END IF;
+END$
+DELIMITER ;
+
+
+
+
+
+DROP PROCEDURE IF EXISTS showResults;
+DELIMITER $
+CREATE PROCEDURE showResults(IN jobID INT)
+BEGIN
+ BLOCK1:BEGIN
+  DECLARE not_found INT;
+  DECLARE plithos INT(4);
+  DECLARE plithos_eval INT(4);
+  DECLARE CURRid INT(4);
+  DECLARE CURper FLOAT;
+  DECLARE CURed TINYINT;
+  DECLARE CURexp TINYINT;
+  DECLARE plithos1 INT(4);
+  DECLARE txt1 VARCHAR(50);
+  DECLARE txt2 VARCHAR(50);
+  DECLARE txt3 VARCHAR(50);
+  DECLARE plithosI INT(4);
+  DECLARE bid INT(4);
+  DECLARE final_score FLOAT;
+  DECLARE text VARCHAR(50);
+  DECLARE cname VARCHAR(12);
+  DECLARE bcursor CURSOR FOR
+  SELECT job_id,cand_username FROM interview WHERE job_id=jobID;
+  DECLARE CONTINUE HANDLER FOR NOT FOUND SET not_found=1;
+  SET txt1="";
+  SET txt2="";
+  SET txt3="";   
+  DROP TABLE IF EXISTS results;
+		 CREATE TABLE results(
+		    Candidate_name VARCHAR(12),
+		    Interviews_total TINYINT,
+			Personality_value FLOAT,
+			Education_value TINYINT,
+			Experience_value TINYINT,
+			Total_grade FLOAT
+		 );
+   DROP TABLE IF EXISTS rejected;
+		 CREATE TABLE rejected(
+		    cand VARCHAR(12),
+			keimeno VARCHAR(50)
+		 );
+  SELECT COUNT(*) INTO plithos     
+  FROM job
+  INNER JOIN applies ON job.id=applies.job_id  
+  WHERE id=jobID
+  GROUP BY id;
+  SELECT COUNT(*) INTO plithos_eval  
+  FROM interview
+  WHERE interview.job_id=jobID
+  GROUP BY job_id;
+
+  
+
+  IF(plithos=plithos_eval)THEN
+  SET not_found=0;
+  OPEN bcursor;
+  REPEAT
+  FETCH bcursor INTO bid,cname;
+  IF(not_found=0)
+  THEN 
+  SELECT COUNT(*) INTO plithosI
+  FROM interview
+  WHERE cand_username=cname
+  GROUP BY cand_username;
+  IF(plithosI=1) THEN    
+
+     SELECT COUNT(*),SUM(interview.personality + interview.experience + interview.education) AS final_score,interview.personality,interview.experience,interview.education INTO plithos1,final_score,CURper,CURexp,CURed
+     FROM interview
+     WHERE interview.job_id=bid AND interview.cand_username=cname
+     GROUP BY cand_username
+     ORDER BY final_score DESC;
+	INSERT INTO results(Candidate_name,Interviews_total,Personality_value,Education_value,Experience_value,Total_grade) VALUES(cname,plithos1,CURper,CURed,CURexp,final_score);
+	    IF (CURper=0 OR CURexp=0 OR CURed=0) THEN		
+        IF (CURper=0) THEN         
+        SET txt1='failed the interview';
+        END IF;
+        IF(CURexp=0) THEN       
+        SET txt2='no prior experience';
+        END IF;
+        IF(CURed=0) THEN
+        SET txt3='inadequate education';
+        END IF;
+        SELECT CONCAT_WS(',',txt1,txt2,txt3) INTO text;
+		INSERT INTO rejected(cand,keimeno) VALUES(cname,text); 
+        END IF;
+    
+  ELSE
+        BLOCK2:BEGIN   
+         DECLARE final_score1 INT(4);
+         DECLARE new_per FLOAT;        
+         DECLARE idI TINYINT;
+         DECLARE per INT(4);
+         DECLARE anotherFlag INT DEFAULT 0;
+         DECLARE new_sum TINYINT;
+         DECLARE personality_copy TINYINT;
+	 DECLARE education_copy TINYINT;
+	 DECLARE experience_copy TINYINT;
+         DECLARE dcursor CURSOR FOR
+         SELECT inter_id,personality,education,experience FROM interview WHERE cand_username=cname;
+         DECLARE CONTINUE HANDLER FOR NOT FOUND SET anotherFlag=1;
+		 DROP TABLE IF EXISTS sum1;
+		 CREATE TABLE sum1(
+		    sum_cand TINYINT,
+			usr VARCHAR(12) NOT NULL
+		 );
+         OPEN dcursor;
+         SET anotherFlag=0;
+         FETCH dcursor INTO per, personality_copy,education_copy,experience_copy;
+         WHILE(anotherFlag=0)  DO      
+            SELECT SUM(personality_copy) INTO new_sum;
+            INSERT INTO sum1(sum_cand,usr) VALUES(new_sum,cname);            
+            FETCH dcursor INTO per, personality_copy,education_copy,experience_copy;
+	END WHILE;
+	CLOSE dcursor;
+		SELECT SUM(sum_cand)/COUNT(usr) INTO new_per
+		FROM sum1
+		GROUP BY usr;
+	SELECT COUNT(*),SUM(new_per + experience + education) AS final_score,new_per,interview.experience,interview.education INTO plithos1,final_score,CURper,CURexp,CURed
+        FROM interview
+        WHERE interview.cand_username=cname AND job_id=bid
+        ORDER BY final_score DESC;
+		
+     INSERT INTO results(Candidate_name,Interviews_total,Personality_value,Education_value,Experience_value,Total_grade) VALUES(cname,plithosI,CURper,CURed,CURexp,final_score);
+        IF (CURper=0 OR CURexp=0 OR CURed=0) THEN		
+        IF (CURper=0) THEN         
+        SET txt1='failed the interview';
+        END IF;
+        IF(CURexp=0) THEN       
+        SET txt2='no prior experience';
+        END IF;
+        IF(CURed=0) THEN
+        SET txt3='inadequate education';
+        END IF;
+        SELECT CONCAT_WS(',',txt1,txt2,txt3) INTO text;
+		INSERT INTO rejected(cand,keimeno) VALUES(cname,text); 
+        END IF;
+       END BLOCK2;
+
+       END IF;
+       END IF;
+       
+        -- SELECT plithos1,final_score,CURper,CURexp,CURed;       
+     UNTIL(not_found=1)
+     END REPEAT;
+
+     CLOSE bcursor;
+ 
+     ELSE 
+      SELECT 'evaluation has not yet completed, please try again.' AS '';  
+    END IF;
+	SELECT * FROM results
+	ORDER BY Total_grade DESC;
+	SELECT * FROM rejected;
+    END BLOCK1;
+END$
+DELIMITER ;
+
+
+
+
+
+SELECT name,job.position,requires.antikeim_title
+FROM etaireia
+INNER JOIN recruiter ON recruiter.firm=etaireia.AFM
+INNER JOIN job ON job.recruiter=recruiter.username
+INNER JOIN requires ON requires.job_id=job.id
+WHERE etaireia.city = 'Patra' and requires.antikeim_title LIKE '%Program%'; 
+
+SELECT recruiter,COUNT(*),AVG(salary) 
+FROM job
+GROUP BY recruiter HAVING COUNT(*)>2
+ORDER BY AVG(salary) ASC;
+
+
+SELECT user.name ,user.surname,recruiter.firm,job.id,job.salary, COUNT(*) 
+FROM user 
+INNER JOIN recruiter ON recruiter.username=user.username 
+INNER JOIN job ON recruiter.username=job.recruiter 
+INNER JOIN applies ON job.id=applies.job_id 
+WHERE job.salary>1900 
+GROUP BY job_id;
+
+SELECT candidate.username, candidate.certificates, COUNT(*), AVG(has_degree.grade) 
+FROM candidate 
+INNER JOIN has_degree ON candidate.username=has_degree.cand_usrname 
+GROUP BY candidate.username 
+HAVING COUNT(*)>1;
+
+SELECT candidate.username, COUNT(*),AVG(job.salary)
+FROM candidate
+INNER JOIN applies ON candidate.username=applies.cand_usrname
+INNER JOIN job ON applies.job_id=job.id
+WHERE job.salary>1800
+GROUP BY candidate.username; 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
