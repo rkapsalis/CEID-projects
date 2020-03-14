@@ -7,6 +7,7 @@ This repository includes the most interesting projects (scripts and programs) th
 | Compilers     | Flex, Bison, C  |
 | Data Structures  | Java  |
 | Database Lab  | MySQL, Java  |
+| Digital Communications| Matlab|
 | Object Oriented Programming  | Java, C++  |
 | Operating Systems  |  C, shell |
 | Parallel Processing  | C++ |
