@@ -9,4 +9,7 @@ A hotel reservation app that supports:
 * 5 different types of rooms
 * financial management (per room and total)
 
-
+## Authors
+* Romanos Kapsalis
+* Zisis Stylianos Tramparis
+* Panagiotis Stavropoulos
