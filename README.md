@@ -12,3 +12,4 @@ This repository includes the most interesting projects (scripts and programs) th
 | Operating Systems  |  C, shell |
 | Parallel Processing  | C++ |
 | Principles of Programming Languages | Python |
+| Software Quality|
