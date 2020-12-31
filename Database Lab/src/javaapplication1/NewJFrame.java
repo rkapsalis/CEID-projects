@@ -194,7 +194,7 @@ public class NewJFrame extends javax.swing.JFrame {
         
         try{
          String query = "SELECT * FROM `user` WHERE BINARY username=? and BINARY password=?";
-        // conn = DriverManager.getConnection("jdbc:mysql://localhost/simpleuniversity", "root", "K!72E32@MS18");
+        // conn = DriverManager.getConnection("jdbc:mysql://localhost/simpleuniversity", "root", "");
          s=Username.getText();
          pst=conn.prepareStatement(query);         
          pst.setString(1, Username.getText());
